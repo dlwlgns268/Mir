@@ -18,7 +18,6 @@ public class Interaction : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.DrawRay(transform.position, transform.right * _maxRayDistance, Color.red);
-            Debug.Log("ray발사");
             if (_ray)
             {
                 //_ray.transform

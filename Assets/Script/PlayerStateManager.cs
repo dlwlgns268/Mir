@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerStateManager : MonoBehaviour
 {
     public float _playerCurHp;
-        public float PlayerAtk;
+        public int PlayerAtk;
         private static int _playerDef;
         private static int _playerMaxHp;
         private static GameObject _player;
@@ -26,7 +26,7 @@ public class PlayerStateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HpBar.fillAmount = _playerCurHp/_playerMaxHp;
+        HpBar.fillAmount = (float) _playerCurHp/_playerMaxHp;
         _invincibleTime -= Time.deltaTime;
         if (_invincibleTime < 0)
         {
@@ -40,6 +40,19 @@ public class PlayerStateManager : MonoBehaviour
         if (_playerCurHp < 0)
         {
             _playerCurHp = 0;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _playerCurHp -= 5;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider2D)
+    {
+        if (collider2D.gameObject.CompareTag("deadline"))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
         }
     }
 }

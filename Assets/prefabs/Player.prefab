@@ -40,6 +40,7 @@ Transform:
   m_Children:
   - {fileID: 5338680955343249851}
   - {fileID: 1402668261346787469}
+  - {fileID: 4570610732338949653}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4400478324071409531
@@ -172,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46dde2a0b76c9ee439a8252380d13d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _anim: {fileID: 0}
+  _anim: {fileID: 3655484233463003752}
   _isJumping: 0
 --- !u!114 &5029218418223853722
 MonoBehaviour:
@@ -204,6 +205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pos: {fileID: 1402668261346787469}
   boxSize: {x: 0.25, y: 0.4}
+  spriteRenderer: {fileID: 4400478324071409531}
 --- !u!50 &2770047888358200255
 Rigidbody2D:
   serializedVersion: 4
@@ -243,9 +245,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 063862eaae297b347ad13b40974861c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dashAtk: 0
   _currDashCooltime: 0
   _rigid: {fileID: 2770047888358200255}
   _anim: {fileID: 3655484233463003752}
+  _isdashing: 0
+  pos: {fileID: 4570610732338949653}
+  boxSize: {x: 0.35, y: 0.45}
 --- !u!114 &8937473932199917610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +265,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 273181568055334479}
+--- !u!1 &1275038350010285135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4570610732338949653}
+  m_Layer: 0
+  m_Name: Dash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4570610732338949653
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275038350010285135}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 285063425816868041}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1834874486564694243
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,7 +339,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.3283019, g: 0.3283019, b: 0.3283019, a: 0}
+  m_BackGroundColor: {r: 0.19245279, g: 0.19245279, b: 0.19245279, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -325,8 +362,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
-  orthographic: 1
+  field of view: 89.5
+  orthographic: 0
   orthographic size: 2
   m_Depth: -1
   m_CullingMask:
@@ -376,7 +413,7 @@ Transform:
   m_GameObject: {fileID: 6252794917714869961}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.175, y: 0.051, z: -8.404907}
+  m_LocalPosition: {x: 0.175, y: 0.051, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class ChargeDash : MonoBehaviour
 {
-    private int _dashAtk = 0;
+    public int _dashAtk = 0;
     private int _dashPower = 50;
     private float _curChage = 0f;
     private float _maxCharge = 5f;
     private float _horizontal;
-    private float _dashCooltime = 0.38f;
+    private float _dashCooltime = 1.2f;
     [SerializeField] private float _currDashCooltime = 0f;
     [SerializeField] private Rigidbody2D _rigid;
     public Animator _anim;
-    private bool _isdashing;
+    [SerializeField] private bool _isdashing;
+    public Transform pos;
+    public Vector2 boxSize;
     
     private void Awake()
     {
@@ -44,17 +46,32 @@ public class ChargeDash : MonoBehaviour
         {
             _currDashCooltime -= Time.deltaTime;
         }
-        
+
+        if (_isdashing == true)
+        {
+            Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxSize, 0);
+            foreach (Collider2D collider in collider2Ds)
+            {
+                if (collider.CompareTag("Enemy"))
+                {
+                    collider.GetComponent<BossStateManager>().Damagee();
+                    _isdashing = false;
+                }
+            }
+        }
     }
 
     IEnumerator Dash()
     {
+        _isdashing = true;
         PlayerMove.CanMove = false;
         float currentTime = Time.fixedTime;
         yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.Z));
         float cal = Mathf.Min(Time.fixedTime - currentTime, 2);
+        float atkcal = Mathf.Min(Time.fixedTime - currentTime, 15);
         _rigid.gravityScale = 0f;
         _rigid.velocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized * (cal * 16);
+        _dashAtk = (int)(atkcal * 10);
         PlayerMove.CanMove = true;
         yield return new WaitForSeconds(0.2f);
         _rigid.velocity = new Vector2(0, 0);
@@ -64,5 +81,13 @@ public class ChargeDash : MonoBehaviour
         yield return new WaitForSeconds(0.04f);
         _rigid.gravityScale = 2f;
         _currDashCooltime = _dashCooltime;
+        _dashAtk = 0;
+        _isdashing = false;
+    }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(pos.position, boxSize);
     }
 }

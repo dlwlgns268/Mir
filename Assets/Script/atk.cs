@@ -6,17 +6,15 @@ using UnityEngine;
 
 public class atk : MonoBehaviour
 {
-    private float _cooltime = 0.1f;
+    private float _cooltime = 0.3f;
     private float _curCooltime = 0;
     public Transform pos;
     public Vector2 boxSize;
-    void Start()
-    {
-        
-    }
+    public SpriteRenderer spriteRenderer;
     
     void Update()
     {
+        pos.localPosition = spriteRenderer.flipX ? new Vector3(-0.175f, 0.051f, 0) : new Vector3(0.175f, 0.051f, 0);
         if (_curCooltime <= 0)
         {
             if (Input.GetKeyDown(KeyCode.C))
@@ -25,7 +23,10 @@ public class atk : MonoBehaviour
                 Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxSize, 0);
                 foreach (Collider2D collider in collider2Ds)
                 {
-                    Debug.Log(collider.tag);
+                    if (collider.CompareTag("Enemy"))
+                    {
+                        collider.GetComponent<BossStateManager>().Damage();
+                    }
                 }
             }
         }
