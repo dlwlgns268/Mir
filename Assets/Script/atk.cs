@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class atk : MonoBehaviour
 {
-    private float _cooltime = 0.3f;
+    private float _cooltime = 0.25f;
     private float _curCooltime = 0;
     public Transform pos;
     public Vector2 boxSize;
@@ -38,7 +38,7 @@ public class atk : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawCube(pos.position, boxSize);
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawCube(pos.position, boxSize);
     }
 }

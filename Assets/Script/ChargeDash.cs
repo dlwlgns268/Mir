@@ -14,9 +14,10 @@ public class ChargeDash : MonoBehaviour
     [SerializeField] private float _currDashCooltime = 0f;
     [SerializeField] private Rigidbody2D _rigid;
     public Animator _anim;
-    [SerializeField] private bool _isdashing;
+    public static bool IsDashing;
     public Transform pos;
     public Vector2 boxSize;
+    private Coroutine _dashCoroutine;
     
     private void Awake()
     {
@@ -39,7 +40,7 @@ public class ChargeDash : MonoBehaviour
             {
                 _rigid.velocity = new Vector2(0, 0);
                 _rigid.gravityScale = 0.02f;
-                StartCoroutine(Dash());
+                _dashCoroutine = StartCoroutine(Dash());
             }
         }
         else
@@ -47,7 +48,7 @@ public class ChargeDash : MonoBehaviour
             _currDashCooltime -= Time.deltaTime;
         }
 
-        if (_isdashing == true)
+        if (IsDashing == true)
         {
             Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxSize, 0);
             foreach (Collider2D collider in collider2Ds)
@@ -55,7 +56,16 @@ public class ChargeDash : MonoBehaviour
                 if (collider.CompareTag("Enemy"))
                 {
                     collider.GetComponent<BossStateManager>().Damagee();
-                    _isdashing = false;
+                    if (IsDashing)
+                    {
+                        _rigid.velocity *= 0.1f;
+                        StopCoroutine(_dashCoroutine);
+                        PlayerMove.CanMove = true;
+                        _rigid.gravityScale = 2f;
+                        _currDashCooltime = _dashCooltime;
+                        _dashAtk = 0;
+                        IsDashing = false;
+                    }
                 }
             }
         }
@@ -63,7 +73,7 @@ public class ChargeDash : MonoBehaviour
 
     IEnumerator Dash()
     {
-        _isdashing = true;
+        IsDashing = true;
         PlayerMove.CanMove = false;
         float currentTime = Time.fixedTime;
         yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.Z));
@@ -82,12 +92,12 @@ public class ChargeDash : MonoBehaviour
         _rigid.gravityScale = 2f;
         _currDashCooltime = _dashCooltime;
         _dashAtk = 0;
-        _isdashing = false;
+        IsDashing = false;
     }
     
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawCube(pos.position, boxSize);
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawCube(pos.position, boxSize);
     }
 }

@@ -6,20 +6,22 @@ using UnityEngine.UI;
 
 public class PlayerStateManager : MonoBehaviour
 {
-    public float _playerCurHp;
+        public float _playerCurHp;
         public int PlayerAtk;
-        private static int _playerDef;
         private static int _playerMaxHp;
         private static GameObject _player;
         public float _invincibleTime = 0;
         public Image HpBar;
+        public float playerCurMp;
+        private static int _playerMaxMp;
 
     void Start()
     {
         _playerMaxHp = 100;
+        _playerMaxMp = 50;
         PlayerAtk = 20;
-        _playerDef = 10;
         _playerCurHp = _playerMaxHp;
+        playerCurMp = _playerMaxMp;
         HpBar = HpBar.GetComponent<Image>();
     }
 

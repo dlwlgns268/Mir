@@ -14,7 +14,6 @@ public class PlayerMove : MonoBehaviour
     private static readonly int Isjumping = Animator.StringToHash("isjumping");
     private SpriteRenderer _spriteRenderer;
     public static bool CanMove = true;
-    //[SerializeField]private int _jumpStack;
 
     private void Awake()
     {
@@ -32,7 +31,7 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _isJumping == false)
+        if (Input.GetKeyDown(KeyCode.Space) && _isJumping == false && !ChargeDash.IsDashing)
         {
             Jump();
         }
@@ -71,6 +70,5 @@ public class PlayerMove : MonoBehaviour
     {
         _rigid.velocity = new Vector2(_rigid.velocity.x, JumpPower);
         _isJumping = true;
-        //_jumpStack--;
     }
 }
