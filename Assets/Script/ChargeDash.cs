@@ -55,7 +55,7 @@ public class ChargeDash : MonoBehaviour
             {
                 if (collider.CompareTag("Enemy"))
                 {
-                    collider.GetComponent<BossStateManager>().Damagee();
+                    collider.GetComponent<Monster>().Damagee();
                     if (IsDashing)
                     {
                         _rigid.velocity *= 0.1f;
@@ -78,10 +78,10 @@ public class ChargeDash : MonoBehaviour
         float currentTime = Time.fixedTime;
         yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.Z));
         float cal = Mathf.Min(Time.fixedTime - currentTime, 2);
-        float atkcal = Mathf.Min(Time.fixedTime - currentTime, 15);
+        float atkcal = Mathf.Min(Time.fixedTime - currentTime, 10);
         _rigid.gravityScale = 0f;
         _rigid.velocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized * (cal * 16);
-        _dashAtk = (int)(atkcal * 10);
+        _dashAtk = (int)(atkcal * 20);
         PlayerMove.CanMove = true;
         yield return new WaitForSeconds(0.2f);
         _rigid.velocity = new Vector2(0, 0);

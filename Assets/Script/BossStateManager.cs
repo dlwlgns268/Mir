@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossStateManager : MonoBehaviour
+public class BossStateManager : Monster
 {
     public int bosscurrHp;
-    private static int _bossHp = 7000;
+    private static int _bossHp = 4500;
     private int _bossAtk;
     private static GameObject _boss;
     public Slider bossHpBar;
@@ -16,7 +16,7 @@ public class BossStateManager : MonoBehaviour
     
     void Start()
     {
-        _bossHp = 7000;
+        _bossHp = 4500;
         bosscurrHp = _bossHp;
         _bossAtk = 8;
     }
@@ -27,12 +27,12 @@ public class BossStateManager : MonoBehaviour
         bossHpBar.value = (float) bosscurrHp/_bossHp;
     }
 
-    public void Damage()
+    public override void Damage()
     {
         bosscurrHp -= player.PlayerAtk;
     }
 
-    public void Damagee()
+    public override void Damagee()
     {
         bosscurrHp -= dash._dashAtk;
     }

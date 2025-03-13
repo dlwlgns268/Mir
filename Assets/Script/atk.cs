@@ -25,7 +25,7 @@ public class atk : MonoBehaviour
                 {
                     if (collider.CompareTag("Enemy"))
                     {
-                        collider.GetComponent<BossStateManager>().Damage();
+                        collider.GetComponent<Monster>().Damage();
                     }
                 }
             }
