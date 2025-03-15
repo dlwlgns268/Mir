@@ -9,11 +9,11 @@ public abstract class Monster : MonoBehaviour
     public float mobAtk;
     public float mobSpd;
     public float mobAtkDelay;
-    public GameObject player;
+    public PlayerStateManager player;
 
-    private void Start()
+    private void Awake()
     {
-        player = FindObjectOfType<PlayerMove>().gameObject;
+        player = FindObjectOfType<PlayerStateManager>();
     }
 
     public abstract void Damagee();

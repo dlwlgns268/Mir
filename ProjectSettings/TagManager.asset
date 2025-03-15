@@ -6,9 +6,9 @@ TagManager:
   tags:
   - Ground
   - Enemy
-  - New tag
   - Portal
   - deadline
+  - monster
   layers:
   - Default
   - TransparentFX
@@ -19,7 +19,7 @@ TagManager:
   - Ground
   - Interaction
   - deadline
-  - 
+  - Monster
   - 
   - 
   - 

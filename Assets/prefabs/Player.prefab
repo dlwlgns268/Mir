@@ -191,6 +191,7 @@ MonoBehaviour:
   PlayerAtk: 0
   _invincibleTime: 0
   HpBar: {fileID: 0}
+  playerCurMp: 0
 --- !u!114 &4103551176212677186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +250,6 @@ MonoBehaviour:
   _currDashCooltime: 0
   _rigid: {fileID: 2770047888358200255}
   _anim: {fileID: 3655484233463003752}
-  _isdashing: 0
   pos: {fileID: 4570610732338949653}
   boxSize: {x: 0.35, y: 0.45}
 --- !u!114 &8937473932199917610
@@ -323,7 +323,7 @@ Transform:
   m_GameObject: {fileID: 1834874486564694243}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -10}
+  m_LocalPosition: {x: 0, y: 0.5, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
