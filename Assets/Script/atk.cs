@@ -9,6 +9,8 @@ public class atk : MonoBehaviour
 {
     private float _cooltime = 0.25f;
     private float _curCooltime = 0;
+    private float _rangedCooltime = 3f;
+    private float _curRangedCooltime = 0;
     public Transform pos;
     public Vector2 boxSize;
     public SpriteRenderer spriteRenderer;
@@ -36,6 +38,19 @@ public class atk : MonoBehaviour
         else
         {
             _curCooltime -= Time.deltaTime;
+        }
+        
+        if (_curRangedCooltime <= 0)
+        {
+            if (Input.GetKey(KeyCode.X))
+            {
+                PlayerMove.CanMove = false;
+                
+            }
+        }
+        else
+        {
+            _curRangedCooltime -= Time.deltaTime;
         }
     }
 }

@@ -10,7 +10,6 @@ public class BossStateManager : Monster
     private int _bossAtk;
     private static GameObject _boss;
     public Slider bossHpBar;
-    public PlayerStateManager player;
     public ChargeDash dash;
     
     
