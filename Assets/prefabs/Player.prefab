@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46dde2a0b76c9ee439a8252380d13d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  JumpPower: 9.2
   _anim: {fileID: 3655484233463003752}
   _isJumping: 0
 --- !u!114 &5029218418223853722
@@ -207,6 +208,7 @@ MonoBehaviour:
   pos: {fileID: 1402668261346787469}
   boxSize: {x: 0.25, y: 0.4}
   spriteRenderer: {fileID: 4400478324071409531}
+  playerState: {fileID: 5029218418223853722}
 --- !u!50 &2770047888358200255
 Rigidbody2D:
   serializedVersion: 4
@@ -222,7 +224,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 2.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -362,7 +364,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 89.5
+  field of view: 105
   orthographic: 0
   orthographic size: 2
   m_Depth: -1

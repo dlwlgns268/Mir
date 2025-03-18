@@ -1,147 +1,132 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DokkaebiFireManager : Monster
 {
+    public Animator anim;
     public ChargeDash dash;
     private Rigidbody2D _rigid;
-    private SpriteRenderer _sprite;
-    private const float DFSight = 27.5f;
-    private const float DFAtkSight = 5.5f;
-    private const float DFCliffSight = 2f;
-    private float _direct = 1;
-    private const float StopChaseTime = 0.5f;
-    private float _playerLostTime = 0f;
-    private bool _isChasing;
-    private Coroutine _patrolCoroutine;
+    private bool _canMove = true;
+    private bool PlayerDetection
+    {
+        get
+        {
+            var pos = transform.position;
+            var playerPos = player.transform.position;
+            var xs = Mathf.Abs(playerPos.x - pos.x) <= 3.1;
+            var ys = Mathf.Abs(playerPos.y - pos.y) <= 0.4;
+            return xs && ys;
+        }
+    }
+
+    private bool _isRandomMoving;
+    private Coroutine _randomMoveCoroutine;
+    public List<Transform> movingPositions = new();  
     
-    
-    public DokkaebiFireManager() {
+    private new void Awake()
+    {
+        base.Awake();
         mobCurHp = 50;
         mobAtk = 6;
         mobSpd = 2;
-        mobAtkDelay = 2;
-    }
-
-    void Start()
-    {
-        _rigid = gameObject.GetComponent<Rigidbody2D>();
-        _sprite = GetComponent<SpriteRenderer>();
+        mobAtkDelay = 1.7f;
+        ApplyDelay();
+        _rigid = GetComponent<Rigidbody2D>();
         _rigid.freezeRotation = true;
+        if (movingPositions.Count > 0) StartCoroutine(StaticMoveFlow());
     }
-    
-    void Update()
+
+    private void Update()
     {
-        float distance = Vector3.Distance(transform.position, player.transform.position);
-        mobAtkDelay -= Time.deltaTime;
-
-        if (mobAtkDelay < 0)
+        if (mobCurHp <= 0)
         {
-            mobAtkDelay = 0;
+            Destroy(gameObject);
         }
-        
-        if (mobAtkDelay <= 0 && distance <= DFSight)
-        {
-            _isChasing = true;
-            LockOnTarget();
+    }
 
-            if (distance <= DFAtkSight)
+    private new void FixedUpdate()
+    {
+        if (PlayerDetection)
+        {
+            base.FixedUpdate();
+            _isRandomMoving = false;
+            if (_randomMoveCoroutine != null)
             {
-                StartCoroutine(AttackToTarget());
+                StopCoroutine(_randomMoveCoroutine);
+                _randomMoveCoroutine = null;
             }
-            else
+            spriteRenderer.flipX = transform.position.x < player.transform.position.x;
+            if (Clipping(spriteRenderer.flipX ? Vector3.right : Vector3.left))
+                MoveTo(_rigid.position + (spriteRenderer.flipX ? Vector2.right : Vector2.left) * (mobSpd * Time.fixedDeltaTime));
+            if (!(Vector3.Distance(player.transform.position, transform.position) <= 0.16) || IsDelayed) return;
+            player.Damage(mobAtk);
+            ApplyDelay();
+            return;
+        }
+        if (movingPositions.Count > 0) return;
+        if (!_isRandomMoving && Random.Range(0, 250) == 0)
+        {
+            _randomMoveCoroutine = StartCoroutine(RandomMoveFlow(Vector2.left));
+            spriteRenderer.flipX = false;
+        }
+        if (_isRandomMoving || Random.Range(0, 250) != 0) return;
+        _randomMoveCoroutine = StartCoroutine(RandomMoveFlow(Vector2.right));
+        spriteRenderer.flipX = true;
+    }
+
+    public override void Damage(int damage, Vector2 knockBack)
+    {
+        anim.SetBool("Blowed", true);
+        currentDelay = 1000000;
+        _rigid.velocity = knockBack;
+        _canMove = false;
+        mobCurHp -= damage;
+        StartCoroutine(KnockBackFlow());
+    }
+
+    public IEnumerator KnockBackFlow()
+    {
+        yield return new WaitForSeconds(0.33f);
+        _canMove = true;
+        ApplyDelay();
+        anim.SetBool("Blowed", false);
+    }
+
+    private IEnumerator RandomMoveFlow(Vector2 direction)
+    {
+        _isRandomMoving = true;
+        for (var i = 0; i < Random.Range(5, 100); i++)
+        {
+            if (Clipping(spriteRenderer.flipX ? Vector3.right : Vector3.left)) MoveTo(_rigid.position + direction * (mobSpd * Time.fixedDeltaTime));
+            yield return new WaitForFixedUpdate();
+        }
+        _isRandomMoving = false;
+    }
+
+    private IEnumerator StaticMoveFlow()
+    {
+        while (true)
+        {
+            foreach (var movingPosition in movingPositions)
             {
-                MoveToTarget();
+                while (Vector3.Distance(transform.position, movingPosition.position) >= 0.1)
+                {
+                    if (!PlayerDetection)
+                        MoveTo(Vector2.MoveTowards(transform.position, movingPosition.position,
+                            mobSpd * Time.fixedDeltaTime));
+                    spriteRenderer.flipX = transform.position.x < movingPosition.transform.position.x;
+                    yield return new WaitForFixedUpdate();
+                }
+                yield return new WaitForSeconds(movingPosition.localScale.x);
             }
         }
-        else
-        {
-            if (_isChasing)
-            {
-                _playerLostTime += Time.deltaTime;
-            }
-            _isChasing = false;
-        }
-
-        if (!_isChasing && _patrolCoroutine == null)
-        {
-            _patrolCoroutine = StartCoroutine(Patrol());
-        }
-        else if (_patrolCoroutine != null)
-        {
-            StopCoroutine(_patrolCoroutine);
-            _patrolCoroutine = null;
-        }
-
-        if (_isChasing && _patrolCoroutine != null)
-        {
-         StopCoroutine(_patrolCoroutine);
-         _patrolCoroutine = null;
-        }
-
-        if (_playerLostTime >= StopChaseTime && !_isChasing)
-        {
-            _playerLostTime = 0;
-        }
     }
-    
-    private void LockOnTarget()
+
+    public void MoveTo(Vector2 position)
     {
-        _sprite.flipX = !(player.transform.position.x < transform.position.x);
+        if (_canMove) _rigid.position = position;
     }
-    public override void Damage()
-    {
-        mobCurHp -= player.PlayerAtk;
-    }
-
-    public override void Damagee()
-    {
-        mobCurHp -= dash._dashAtk;
-    }
-    
-    void MoveToTarget()
-    {
-        if (_detectCliff()) return;
-        
-        float dir = (player.transform.position.x < transform.position.x) ? -1 : 1;
-        transform.Translate(Vector2.right * (dir * mobSpd * Time.deltaTime));
-    }
-     IEnumerator AttackToTarget()
-     { 
-         mobSpd = 0;
-        BoxCollider2D collider = transform.AddComponent<BoxCollider2D>();
-        collider.size = new(0.15f, 0.2f);
-        collider.isTrigger = true;
-        yield return new WaitForSeconds(0.5f);
-        Destroy(GetComponent<BoxCollider2D>());
-        mobSpd = 2;
-     }
-
-     IEnumerator Patrol()
-     {
-         while (true)
-         {
-             if (_detectCliff()) yield return new WaitForSeconds(0.1f);
-             transform.Translate(Vector2.right * (_direct * mobSpd * Time.deltaTime));
-             yield return new WaitForSeconds(1.5f);
-             _direct *= -1;
-         }
-     }
-
-     private bool _detectCliff()
-     {
-         Vector2 checkPos = (Vector2)transform.position + new Vector2(_direct * 0.5f, 0);
-         RaycastHit2D groundCheck = Physics2D.Raycast(checkPos, Vector2.down, DFCliffSight, LayerMask.GetMask("Ground"));
-
-         if (!groundCheck.collider)
-         {
-             _direct *= -1;
-             _sprite.flipX = _direct > 0;
-             _isChasing = false;
-             return true;
-         }
-         return false;
-     }
 }

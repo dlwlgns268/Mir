@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BossStateManager : Monster
 {
     public int bosscurrHp;
-    private static int _bossHp = 4500;
+    private static int _bossHp = 2000;
     private int _bossAtk;
     private static GameObject _boss;
     public Slider bossHpBar;
@@ -16,7 +16,7 @@ public class BossStateManager : Monster
     
     void Start()
     {
-        _bossHp = 4500;
+        _bossHp = 2000;
         bosscurrHp = _bossHp;
         _bossAtk = 8;
     }
@@ -27,13 +27,8 @@ public class BossStateManager : Monster
         bossHpBar.value = (float) bosscurrHp/_bossHp;
     }
 
-    public override void Damage()
+    public override void Damage(int damage, Vector2 knockBack)
     {
-        bosscurrHp -= player.PlayerAtk;
-    }
-
-    public override void Damagee()
-    {
-        bosscurrHp -= dash._dashAtk;
+        bosscurrHp -= damage;
     }
 }

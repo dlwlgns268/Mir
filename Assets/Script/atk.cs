@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -11,7 +12,8 @@ public class atk : MonoBehaviour
     public Transform pos;
     public Vector2 boxSize;
     public SpriteRenderer spriteRenderer;
-    
+    public PlayerStateManager playerState;
+
     void Update()
     {
         pos.localPosition = spriteRenderer.flipX ? new Vector3(-0.175f, 0.051f, 0) : new Vector3(0.175f, 0.051f, 0);
@@ -23,9 +25,10 @@ public class atk : MonoBehaviour
                 Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxSize, 0);
                 foreach (Collider2D collider in collider2Ds)
                 {
-                    if (collider.CompareTag("Enemy"))
+                    if (collider.CompareTag("monster"))
                     {
-                        collider.GetComponent<Monster>().Damage();
+                        Vector2 knockBack = collider.transform.position - transform.position;
+                        collider.GetComponent<Monster>().Damage(playerState.PlayerAtk, knockBack);
                     }
                 }
             }
@@ -34,11 +37,5 @@ public class atk : MonoBehaviour
         {
             _curCooltime -= Time.deltaTime;
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawCube(pos.position, boxSize);
     }
 }

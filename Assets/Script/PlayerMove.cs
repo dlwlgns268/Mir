@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     private float _speed = 200;
-    private const float JumpPower = 9.2f;
+    [SerializeField] private float JumpPower = 9.2f;
     private float _horizontal;
     private Rigidbody2D _rigid;
     public Animator _anim;

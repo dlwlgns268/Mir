@@ -193,9 +193,9 @@ GameObject:
   - component: {fileID: 107069255}
   - component: {fileID: 107069257}
   - component: {fileID: 107069256}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Boss
-  m_TagString: Enemy
+  m_TagString: monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -357,6 +357,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae009aa1d865b341b2c3f6ea0e06451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mobCurHp: 0
+  mobAtk: 0
+  mobSpd: 0
+  mobAtkDelay: 0
+  isSmart: 0
+  player: {fileID: 815625718}
+  spriteRenderer: {fileID: 0}
   bosscurrHp: 0
   bossHpBar: {fileID: 1335391745}
   player: {fileID: 815625718}
@@ -1948,7 +1955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2770047888358200255, guid: b5df6b4ead36d634a9d9868030c93526, type: 3}
       propertyPath: m_GravityScale
-      value: 2
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2770047888358200255, guid: b5df6b4ead36d634a9d9868030c93526, type: 3}
       propertyPath: m_CollisionDetection
@@ -1964,7 +1971,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3998528070749342884, guid: b5df6b4ead36d634a9d9868030c93526, type: 3}
       propertyPath: field of view
-      value: 58.289165
+      value: 72.487625
       objectReference: {fileID: 0}
     - target: {fileID: 3998528070749342884, guid: b5df6b4ead36d634a9d9868030c93526, type: 3}
       propertyPath: m_FOVAxisMode
@@ -1978,6 +1985,10 @@ PrefabInstance:
       propertyPath: HpBar
       value: 
       objectReference: {fileID: 312455518}
+    - target: {fileID: 5338680955343249851, guid: b5df6b4ead36d634a9d9868030c93526, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 5338680955343249851, guid: b5df6b4ead36d634a9d9868030c93526, type: 3}
       propertyPath: m_LocalPosition.z
       value: -3
@@ -42931,12 +42942,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3919453103716083289, guid: f2a638bffcb66aa4f9e365bfee14b8cb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 138.43701
+      objectReference: {fileID: 0}
+    - target: {fileID: 3919453103716083289, guid: f2a638bffcb66aa4f9e365bfee14b8cb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 63.7
       objectReference: {fileID: 0}
     - target: {fileID: 3919453103716083289, guid: f2a638bffcb66aa4f9e365bfee14b8cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.1
+      value: 2.3815
       objectReference: {fileID: 0}
     - target: {fileID: 3919453103716083289, guid: f2a638bffcb66aa4f9e365bfee14b8cb, type: 3}
       propertyPath: m_LocalPosition.z

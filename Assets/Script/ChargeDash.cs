@@ -53,12 +53,13 @@ public class ChargeDash : MonoBehaviour
             Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxSize, 0);
             foreach (Collider2D collider in collider2Ds)
             {
-                if (collider.CompareTag("Enemy"))
+                if (collider.CompareTag("monster"))
                 {
-                    collider.GetComponent<Monster>().Damagee();
+                    Vector2 knockBack = collider.transform.position - transform.position;
+                    collider.GetComponent<Monster>().Damage(_dashAtk, knockBack);
                     if (IsDashing)
                     {
-                        _rigid.velocity *= 0.1f;
+                        _rigid.velocity *= 0.15f;
                         StopCoroutine(_dashCoroutine);
                         PlayerMove.CanMove = true;
                         _rigid.gravityScale = 2f;
@@ -89,7 +90,7 @@ public class ChargeDash : MonoBehaviour
         yield return new WaitForSeconds(0.04f);
         _rigid.gravityScale = 0.8f;
         yield return new WaitForSeconds(0.04f);
-        _rigid.gravityScale = 2f;
+        _rigid.gravityScale = 2.5f;
         _currDashCooltime = _dashCooltime;
         _dashAtk = 0;
         IsDashing = false;

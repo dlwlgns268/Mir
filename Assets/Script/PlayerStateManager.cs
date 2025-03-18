@@ -50,6 +50,11 @@ public class PlayerStateManager : MonoBehaviour
         }
     }
 
+    public void Damage(float amount)
+    {
+        _playerCurHp -= amount;
+    }
+
     private void OnTriggerEnter2D(Collider2D collider2D)
     {
         if (collider2D.gameObject.CompareTag("deadline"))
