@@ -62,7 +62,7 @@ public class ChargeDash : MonoBehaviour
                         _rigid.velocity *= 0.15f;
                         StopCoroutine(_dashCoroutine);
                         PlayerMove.CanMove = true;
-                        _rigid.gravityScale = 2f;
+                        _rigid.gravityScale = 2.5f;
                         _currDashCooltime = _dashCooltime;
                         _dashAtk = 0;
                         IsDashing = false;
