@@ -17,7 +17,7 @@ public class DokkaebiFireManager : Monster
             var pos = transform.position;
             var playerPos = player.transform.position;
             var xs = Mathf.Abs(playerPos.x - pos.x) <= 3.1;
-            var ys = Mathf.Abs(playerPos.y - pos.y) <= 0.4;
+            var ys = Mathf.Abs(playerPos.y - pos.y) <= 1.6;
             return xs && ys;
         }
     }
