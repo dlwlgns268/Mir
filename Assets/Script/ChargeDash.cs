@@ -18,6 +18,8 @@ public class ChargeDash : MonoBehaviour
     public Transform pos;
     public Vector2 boxSize;
     private Coroutine _dashCoroutine;
+    public bool canDash;
+    public atk Atk;
     
     private void Awake()
     {
@@ -28,7 +30,7 @@ public class ChargeDash : MonoBehaviour
     
     void Start()
     {
-        
+        canDash = true;
     }
     
     void Update()
@@ -36,8 +38,9 @@ public class ChargeDash : MonoBehaviour
         if (_currDashCooltime <= 0)
         {
             
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Z) && canDash)
             {
+                Atk.canShot = false; // 문제
                 _rigid.velocity = new Vector2(0, 0);
                 _rigid.gravityScale = 0.02f;
                 _dashCoroutine = StartCoroutine(Dash());
@@ -61,7 +64,7 @@ public class ChargeDash : MonoBehaviour
                     {
                         _rigid.velocity *= 0.15f;
                         StopCoroutine(_dashCoroutine);
-                        PlayerMove.CanMove = true;
+                        PlayerMove.CannotMove.Remove("Dash");
                         _rigid.gravityScale = 2.5f;
                         _currDashCooltime = _dashCooltime;
                         _dashAtk = 0;
@@ -75,7 +78,7 @@ public class ChargeDash : MonoBehaviour
     IEnumerator Dash()
     {
         IsDashing = true;
-        PlayerMove.CanMove = false;
+        PlayerMove.CannotMove.Add("Dash");
         float currentTime = Time.fixedTime;
         yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.Z));
         float cal = Mathf.Min(Time.fixedTime - currentTime, 2);
@@ -83,7 +86,7 @@ public class ChargeDash : MonoBehaviour
         _rigid.gravityScale = 0f;
         _rigid.velocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized * (cal * 16);
         _dashAtk = (int)(atkcal * 20);
-        PlayerMove.CanMove = true;
+        PlayerMove.CannotMove.Remove("Dash");
         yield return new WaitForSeconds(0.2f);
         _rigid.velocity = new Vector2(0, 0);
         _rigid.gravityScale = 0.2f;
@@ -94,6 +97,7 @@ public class ChargeDash : MonoBehaviour
         _currDashCooltime = _dashCooltime;
         _dashAtk = 0;
         IsDashing = false;
+        Atk.canShot = true;
     }
     
     private void OnDrawGizmos()

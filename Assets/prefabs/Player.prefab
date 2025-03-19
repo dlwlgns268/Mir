@@ -205,6 +205,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5197c7f1db6f18f409a1635e50a7ce53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rangedAtk: 0
+  bulletsize: 0
+  fire: {fileID: 7402936236446755209, guid: 36e3eb9cbded11d45bf9ab286ec26ef2, type: 3}
+  player: {fileID: 273181568055334479}
   pos: {fileID: 1402668261346787469}
   boxSize: {x: 0.25, y: 0.4}
   spriteRenderer: {fileID: 4400478324071409531}

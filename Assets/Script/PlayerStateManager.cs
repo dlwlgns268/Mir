@@ -43,11 +43,6 @@ public class PlayerStateManager : MonoBehaviour
         {
             _playerCurHp = 0;
         }
-        
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            _playerCurHp -= 5;
-        }
     }
 
     public void Damage(float amount)

@@ -13,7 +13,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private bool _isJumping;
     private static readonly int Isjumping = Animator.StringToHash("isjumping");
     private SpriteRenderer _spriteRenderer;
-    public static bool CanMove = true;
+    public static readonly HashSet<string> CannotMove = new();
 
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         _horizontal = Input.GetAxisRaw("Horizontal");
-        if (!CanMove) _horizontal = 0;
+        if (CannotMove.Count > 0) _horizontal = 0;
         if (!Input.GetKey(KeyCode.Z) && _rigid.velocity.magnitude < 5)
         {
             Vector2 movePos = new Vector2(_horizontal * (_speed * Time.fixedDeltaTime), _rigid.velocity.y);
