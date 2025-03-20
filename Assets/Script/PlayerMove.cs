@@ -41,7 +41,7 @@ public class PlayerMove : MonoBehaviour
     {
         _horizontal = Input.GetAxisRaw("Horizontal");
         if (CannotMove.Count > 0) _horizontal = 0;
-        if (!Input.GetKey(KeyCode.Z) && _rigid.velocity.magnitude < 5)
+        if (!ChargeDash.IsDashing && _rigid.velocity.magnitude < 5)
         {
             Vector2 movePos = new Vector2(_horizontal * (_speed * Time.fixedDeltaTime), _rigid.velocity.y);
             _rigid.velocity = movePos;

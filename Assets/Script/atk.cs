@@ -86,7 +86,7 @@ public class atk : MonoBehaviour
         inst.atk = this;
         inst.facing = spriteRenderer.flipX;
         inst.Initialize();
-        yield return new WaitForSeconds(dur);
+        yield return new WaitForSeconds(2f);
         Destroy(inst);
     }
 }

@@ -10,7 +10,7 @@ public class ChargeDash : MonoBehaviour
     private float _curChage = 0f;
     private float _maxCharge = 5f;
     private float _horizontal;
-    private float _dashCooltime = 1.2f;
+    private float _dashCooltime = 1.4f;
     [SerializeField] private float _currDashCooltime = 0f;
     [SerializeField] private Rigidbody2D _rigid;
     public Animator _anim;
@@ -35,11 +35,11 @@ public class ChargeDash : MonoBehaviour
     
     void Update()
     {
-        if (_currDashCooltime <= 0)
+        if (_currDashCooltime <= 0f)
         {
-            
             if (Input.GetKeyDown(KeyCode.Z) && canDash)
             {
+                _currDashCooltime = 500f;
                 Atk.canShot = false; // 문제
                 _rigid.velocity = new Vector2(0, 0);
                 _rigid.gravityScale = 0.02f;
@@ -51,7 +51,7 @@ public class ChargeDash : MonoBehaviour
             _currDashCooltime -= Time.deltaTime;
         }
 
-        if (IsDashing == true)
+        if (IsDashing)
         {
             Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(pos.position, boxSize, 0);
             foreach (Collider2D collider in collider2Ds)
@@ -81,6 +81,7 @@ public class ChargeDash : MonoBehaviour
         PlayerMove.CannotMove.Add("Dash");
         float currentTime = Time.fixedTime;
         yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.Z));
+        _currDashCooltime = _dashCooltime;
         float cal = Mathf.Min(Time.fixedTime - currentTime, 2);
         float atkcal = Mathf.Min(Time.fixedTime - currentTime, 10);
         _rigid.gravityScale = 0f;
@@ -94,7 +95,6 @@ public class ChargeDash : MonoBehaviour
         _rigid.gravityScale = 0.8f;
         yield return new WaitForSeconds(0.04f);
         _rigid.gravityScale = 2.5f;
-        _currDashCooltime = _dashCooltime;
         _dashAtk = 0;
         IsDashing = false;
         Atk.canShot = true;
