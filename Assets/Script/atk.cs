@@ -60,7 +60,6 @@ public class atk : MonoBehaviour
             {
                 dash.canDash = false;
                 _chargeShot = StartCoroutine(ChargeShot());
-                _curRangedCooltime = _rangedCooltime;
             }
         }
         else
@@ -86,6 +85,8 @@ public class atk : MonoBehaviour
         inst.atk = this;
         inst.facing = spriteRenderer.flipX;
         inst.Initialize();
+        yield return new WaitForSeconds(0.01f);
+        _curRangedCooltime = _rangedCooltime;
         yield return new WaitForSeconds(2f);
         Destroy(inst);
     }
