@@ -3,7 +3,12 @@ guid: dae009aa1d865b341b2c3f6ea0e06451
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - text: {fileID: -3127424399671186630, guid: b7b6a60524986d54892e42b0628e3d7a, type: 3}
+  - player: {instanceID: 0}
+  - spriteRenderer: {instanceID: 0}
+  - bossHpBar: {instanceID: 0}
+  - dash: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

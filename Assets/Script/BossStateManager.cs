@@ -28,6 +28,9 @@ public class BossStateManager : Monster
 
     public override void Damage(int damage, Vector2 knockBack)
     {
-        bosscurrHp -= (damage + Random.Range(-2,3));
+        var dmg = Mathf.Max(damage + Random.Range(-2, 3), 1);
+        bosscurrHp -= dmg;
+        var o = Instantiate(text);
+        o.DamageIndicate($"{dmg}", transform);
     }
 }

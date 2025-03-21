@@ -83,7 +83,10 @@ public class MaskGhostManager : Monster
         currentDelay = 1000000;
         _rigid.velocity = knockBack;
         _canMove = false;
-        mobCurHp -= (damage + Random.Range(-2,3));
+        var dmg = Mathf.Max(damage + Random.Range(-2, 3), 1);
+        mobCurHp -= dmg;
+        var o = Instantiate(text);
+        o.DamageIndicate($"{dmg}", transform);
         StartCoroutine(KnockBackFlow());
     }
 

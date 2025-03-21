@@ -1,5 +1,8 @@
 using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public abstract class Monster : MonoBehaviour
 {
@@ -8,6 +11,7 @@ public abstract class Monster : MonoBehaviour
     public float mobAtk;
     public float mobSpd;
     public float mobAtkDelay;
+    public DamageTextManager text;
     public bool isSmart;
     public PlayerStateManager player;
     public SpriteRenderer spriteRenderer;

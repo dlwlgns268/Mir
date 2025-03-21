@@ -30,9 +30,7 @@ public class RangedAtkManager : MonoBehaviour
         if (other.CompareTag("monster"))
         {
             Vector2 knockBack = other.transform.position - transform.position;
-            Debug.Log("damaged! : " + _dam);
             other.GetComponent<Monster>().Damage(_dam, knockBack);
-            
         }
     }
 }

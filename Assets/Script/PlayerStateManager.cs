@@ -14,9 +14,11 @@ public class PlayerStateManager : MonoBehaviour
         public Image HpBar;
         public float playerCurMp;
         private static int _playerMaxMp;
+        public static PlayerStateManager Instance { get; private set; }
 
     void Start()
     {
+        Instance = this;
         _playerMaxHp = 100;
         _playerMaxMp = 50;
         PlayerAtk = 20;
