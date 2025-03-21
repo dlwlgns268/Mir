@@ -30,6 +30,11 @@ public class atk : MonoBehaviour
         canShot = true;
     }
 
+    private void Start()
+    {
+        canShot = true;
+    }
+
     void Update()
     {
         pos.localPosition = spriteRenderer.flipX ? new Vector3(-0.175f, 0.051f, 0) : new Vector3(0.175f, 0.051f, 0);
@@ -76,7 +81,7 @@ public class atk : MonoBehaviour
         yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.X));
         float cal = Mathf.Min(Time.fixedTime - currentTime, 4);
         float dur = Mathf.Min(Time.fixedTime - currentTime, 7.5f);
-        rangedAtk = (int)((playerState.PlayerAtk * 0.5) * cal);
+        rangedAtk = (int) (playerState.PlayerAtk * cal * 0.25f);
         bulletsize = (0.01f + (cal * 0.25f));
         var position = player.transform.position;
         var inst = Instantiate(fire, new Vector3(position.x, position.y, 0), Quaternion.identity).GetComponent<RangedAtkManager>();

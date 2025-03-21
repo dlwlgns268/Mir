@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 5025037035856070625}
   - component: {fileID: 6367009006641696866}
   - component: {fileID: 2439544663782882114}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fire
-  m_TagString: Untagged
+  m_TagString: atk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,6 +137,7 @@ MonoBehaviour:
   atk: {fileID: 0}
   rigid: {fileID: 2439544663782882114}
   col: {fileID: 5025037035856070625}
+  facing: 0
 --- !u!50 &2439544663782882114
 Rigidbody2D:
   serializedVersion: 4

@@ -40,7 +40,7 @@ public class ChargeDash : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Z) && canDash)
             {
                 _currDashCooltime = 500f;
-                Atk.canShot = false; // 문제
+                Atk.canShot = false;
                 _rigid.velocity = new Vector2(0, 0);
                 _rigid.gravityScale = 0.02f;
                 _dashCoroutine = StartCoroutine(Dash());
@@ -69,6 +69,7 @@ public class ChargeDash : MonoBehaviour
                         _currDashCooltime = _dashCooltime;
                         _dashAtk = 0;
                         IsDashing = false;
+                        Atk.canShot = true;
                     }
                 }
             }

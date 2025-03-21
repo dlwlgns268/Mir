@@ -28,6 +28,6 @@ public class BossStateManager : Monster
 
     public override void Damage(int damage, Vector2 knockBack)
     {
-        bosscurrHp -= damage;
+        bosscurrHp -= (damage + Random.Range(-2,3));
     }
 }

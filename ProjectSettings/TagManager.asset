@@ -9,6 +9,7 @@ TagManager:
   - Portal
   - deadline
   - monster
+  - atk
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Interaction
   - deadline
   - Monster
-  - 
+  - Atk
   - 
   - 
   - 
